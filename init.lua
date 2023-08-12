@@ -227,9 +227,36 @@ local config = {
         }
       end,
       omnisharp = function()
+        local root_dir = require('user.csharp.root_dir')
+        print("Get config for omnisharp root dir ")
+
         return {
           handlers = { ["textDocument/definition"] = require('omnisharp_extended').handler },
-          root_dir = require('user.csharp.root_dir'),
+          root_dir = root_dir,
+          single_file_support = false,
+          on_new_config = function(new_config, new_root_dir)
+            -- print("Config cmd "..vim.inspect(require("lspconfig")["omnisharp"].default_config.cmd))
+            --
+            -- Get the initially configured value of `cmd`
+            new_config.cmd = { unpack(new_config.cmd or {}) }
+
+            -- Append hard-coded command arguments
+            table.insert(new_config.cmd, '-z') -- https://github.com/OmniSharp/omnisharp-vscode/pull/4300
+            vim.list_extend(new_config.cmd, { '--hostPID', tostring(vim.fn.getpid()) })
+            vim.list_extend(new_config.cmd, { '-s', new_root_dir })
+            table.insert(new_config.cmd, 'DotNet:enablePackageRestore=false')
+            vim.list_extend(new_config.cmd, { '--encoding', 'utf-8' })
+            table.insert(new_config.cmd, '--languageserver')
+
+            new_config.capabilities = vim.deepcopy(new_config.capabilities)
+            new_config.capabilities.workspace.workspaceFolders = true -- https://github.com/OmniSharp/omnisharp-roslyn/issues/909
+          --
+          --   table.insert(new_config.cmd, '-z') -- https://github.com/OmniSharp/omnisharp-vscode/pull/4300
+          --   vim.list_extend(new_config.cmd, { '-s', new_root_dir })
+          --   vim.list_extend(new_config.cmd, { '--hostPID', tostring(vim.fn.getpid()) })
+          --   vim.list_extend(new_config.cmd, { '--encoding', 'utf-8' })
+          --   table.insert(new_config.cmd, '--languageserver')
+          end
         }
       end,
       -- omnisharp = {
@@ -244,7 +271,7 @@ local config = {
         -- sdk_include_prereleases = true,
         -- analyze_open_documents_only = true,
         -- enable_decompilation_support = true,
-      -- },
+      -- }
     },
     formatting = {
       -- control auto formatting on save
@@ -384,7 +411,11 @@ local config = {
     performance = {
       rtp = {
         -- customize default disabled vim plugins
-        disabled_plugins = { "tohtml", "gzip", "matchit", "zipPlugin", "netrwPlugin", "tarPlugin", "matchparen" },
+        disabled_plugins = {
+          "tohtml", "gzip", "matchit", "zipPlugin",
+          -- "netrwPlugin",
+          "tarPlugin", "matchparen"
+        },
       },
     },
   },
@@ -418,7 +449,7 @@ local config = {
       ["z3"] = { "<cmd>set foldlevel=3<cr>" },
       ["z4"] = { "<cmd>set foldlevel=4<cr>" },
       ["z5"] = { "<cmd>set foldlevel=5<cr>" },
-      ["<space>sg"] = { "<cmd>OpenBrowserSearch -google <c-r>=expand('<cword>')<cr><cr>" }
+      ["<space>sg"] = { "<cmd>OpenBrowserSearch -google <c-r>=expand('<cword>')<cr><cr>" },
       -- quick save
       -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
     },

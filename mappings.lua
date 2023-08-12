@@ -34,6 +34,8 @@ M = {
       ["<space>t"] = { "<cmd> :Switch<cr>" },
       ["<space>sg"] = { "<cmd>OpenBrowserSearch -google <c-r>=expand('<cword>')<cr><cr>"}
     },
+    x = {},
+    v = {},
 }
 
 if is_available "leap.nvim" then
@@ -45,6 +47,13 @@ end
 if is_available "toggleterm.nvim" then
   M.n["<leader>gg"] = { "<cmd>Git<cr>", desc = "Open fugitive status" }
   M.n["<leader>gt"] = { function() utils.toggle_term_cmd {cmd = "lazygit", dir = finddir('.git'), hidden = true} end, desc = "ToggleTerm lazygit" }
+end
+
+if is_available "substitute.nvim" then
+    M.n.s = { require('substitute.exchange').operator, desc = "Exchange with motion operator" }
+    M.n.ss = { require('substitute.exchange').line, desc = "Exchange a line" }
+    M.n.S = { require('substitute.exchange').eol, desc = "Exchange till end of line"}
+    M.x.s = { require('substitute.exchange').visual, desc = "Exchange selected"}
 end
 
 return M

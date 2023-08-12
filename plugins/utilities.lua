@@ -19,6 +19,15 @@ return {
   -- },
   { "godlygeek/tabular", lazy = false },
   {
+    'demelev/ledger.nvim',
+    dev = true,
+    ft = { 'ledger' },
+    config = function()
+      print "Configuring ledger"
+      require('ledger-nvim').setup()
+    end
+  },
+  {
     'demelev/unity.nvim',
     dev = true,
     lazy = false,

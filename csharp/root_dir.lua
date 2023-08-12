@@ -28,7 +28,9 @@ return function(bufname, _)
   end
 
   local cwdSolutions = scan_dir(vim.fn.getcwd(), { depth = 1, search_pattern = "\\*.sln$" })
+
   if #cwdSolutions ~= 0 then
+    print("Found a root with sln "..cwdSolutions[1])
     -- print("CWD solutions "..cwdSolutions[1])
     return path.new(cwdSolutions[1]):parent():absolute()
   end
