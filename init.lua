@@ -6,41 +6,41 @@
 -- where a value with no key simply has an implicit numeric key
 vim.cmd [[set fileformat=unix]]
 local config = {
-  dap = {
-    configurations = {
-      c = {
-        name = 'Unity Editor',
-        type = 'unity',
-        request = 'attach',
-      },
-      cs = {
-        {
-          name = 'Unity Editor',
-          type = 'unity',
-          request = 'attach',
-          -- path = '/home/demelev/projects/work/golf/Unity.Product.TrackmanPractice/Library/EditorInstance.json',
-        }
-      }
-    },
-    adapters = {
-      unity = {
-        type = 'executable',
-        command = 'mono',
-        args = { '/home/demelev/Downloads/unity-debug-2.7.2/extension/bin/UnityDebug.exe' },
-        enrich_config = function(config, next)
-          local unity_pid = vim.fn.systemlist('ps -C "Unity" -o pid,cmd | grep "Editor/Unity" | choose 0')
+  -- dap = {
+    -- configurations = {
+      -- c = {
+        -- name = 'Unity Editor',
+        -- type = 'unity',
+        -- request = 'attach',
+      -- },
+      -- cs = {
+        -- {
+          -- name = 'Unity Editor',
+          -- type = 'unity',
+          -- request = 'attach',
+          -- -- path = '/home/demelev/projects/work/golf/Unity.Product.TrackmanPractice/Library/EditorInstance.json',
+        -- }
+      -- }
+    -- },
+    -- adapters = {
+      -- unity = {
+        -- type = 'executable',
+        -- command = 'mono',
+        -- args = { '/home/demelev/Downloads/unity-debug-2.7.2/extension/bin/UnityDebug.exe' },
+        -- enrich_config = function(config, next)
+          -- local unity_pid = vim.fn.systemlist('ps -C "Unity" -o pid,cmd | grep "Editor/Unity" | choose 0')
 
-          vim.ui.select(unity_pid, {}, function(pid)
-            local proc_entry = 'Unity Editor (Unity) (' .. pid:sub(1, -1) .. ')'
-            -- local proc_entry = vim.fn.system('mono '..command..' list')
-            config.name = proc_entry
-            next(config)
-          end
-          )
-        end,
-      }
-    }
-  },
+          -- vim.ui.select(unity_pid, {}, function(pid)
+            -- local proc_entry = 'Unity Editor (Unity) (' .. pid:sub(1, -1) .. ')'
+            -- -- local proc_entry = vim.fn.system('mono '..command..' list')
+            -- config.name = proc_entry
+            -- next(config)
+          -- end
+          -- )
+        -- end,
+      -- }
+    -- }
+  -- },
   -- Configure AstroNvim updates
   updater = {
     remote = "origin",     -- remote to use
@@ -226,52 +226,54 @@ local config = {
           }
         }
       end,
+      -- omnisharp = function()
+      --   local root_dir = require('user.csharp.root_dir')
+      --
+      --   return {
+      --     handlers = { ["textDocument/definition"] = require('omnisharp_extended').handler },
+      --     root_dir = root_dir,
+      --     single_file_support = false,
+      --     on_new_config = function(new_config, new_root_dir)
+      --       -- print("Config cmd "..vim.inspect(require("lspconfig")["omnisharp"].default_config.cmd))
+      --       --
+      --       -- Get the initially configured value of `cmd`
+      --       new_config.cmd = { unpack(new_config.cmd or {}) }
+      --
+      --       -- Append hard-coded command arguments
+      --       table.insert(new_config.cmd, '-z') -- https://github.com/OmniSharp/omnisharp-vscode/pull/4300
+      --       vim.list_extend(new_config.cmd, { '--hostPID', tostring(vim.fn.getpid()) })
+      --       vim.list_extend(new_config.cmd, { '-s', new_root_dir })
+      --       table.insert(new_config.cmd, 'DotNet:enablePackageRestore=false')
+      --       vim.list_extend(new_config.cmd, { '--encoding', 'utf-8' })
+      --       table.insert(new_config.cmd, '--languageserver')
+      --
+      --       new_config.capabilities = vim.deepcopy(new_config.capabilities)
+      --       new_config.capabilities.workspace.workspaceFolders = true -- https://github.com/OmniSharp/omnisharp-roslyn/issues/909
+      --     --
+      --     --   table.insert(new_config.cmd, '-z') -- https://github.com/OmniSharp/omnisharp-vscode/pull/4300
+      --     --   vim.list_extend(new_config.cmd, { '-s', new_root_dir })
+      --     --   vim.list_extend(new_config.cmd, { '--hostPID', tostring(vim.fn.getpid()) })
+      --     --   vim.list_extend(new_config.cmd, { '--encoding', 'utf-8' })
+      --     --   table.insert(new_config.cmd, '--languageserver')
+      --     end
+      --   }
+      -- end,
       omnisharp = function()
-        local root_dir = require('user.csharp.root_dir')
-        print("Get config for omnisharp root dir ")
-
         return {
           handlers = { ["textDocument/definition"] = require('omnisharp_extended').handler },
-          root_dir = root_dir,
-          single_file_support = false,
-          on_new_config = function(new_config, new_root_dir)
-            -- print("Config cmd "..vim.inspect(require("lspconfig")["omnisharp"].default_config.cmd))
-            --
-            -- Get the initially configured value of `cmd`
-            new_config.cmd = { unpack(new_config.cmd or {}) }
-
-            -- Append hard-coded command arguments
-            table.insert(new_config.cmd, '-z') -- https://github.com/OmniSharp/omnisharp-vscode/pull/4300
-            vim.list_extend(new_config.cmd, { '--hostPID', tostring(vim.fn.getpid()) })
-            vim.list_extend(new_config.cmd, { '-s', new_root_dir })
-            table.insert(new_config.cmd, 'DotNet:enablePackageRestore=false')
-            vim.list_extend(new_config.cmd, { '--encoding', 'utf-8' })
-            table.insert(new_config.cmd, '--languageserver')
-
-            new_config.capabilities = vim.deepcopy(new_config.capabilities)
-            new_config.capabilities.workspace.workspaceFolders = true -- https://github.com/OmniSharp/omnisharp-roslyn/issues/909
-          --
-          --   table.insert(new_config.cmd, '-z') -- https://github.com/OmniSharp/omnisharp-vscode/pull/4300
-          --   vim.list_extend(new_config.cmd, { '-s', new_root_dir })
-          --   vim.list_extend(new_config.cmd, { '--hostPID', tostring(vim.fn.getpid()) })
-          --   vim.list_extend(new_config.cmd, { '--encoding', 'utf-8' })
-          --   table.insert(new_config.cmd, '--languageserver')
-          end
+          root_dir = require('user.csharp.root_dir'),
+          enable_editorconfig_support = true,
+          enable_ms_build_load_projects_on_demand = false,
+          enable_roslyn_analyzers = true,
+          organize_imports_on_format = false,
+          enable_import_completion = true,
+          -- Specifies whether to include preview versions of the .NET SDK when
+          -- determining which version to use for project loading.
+          sdk_include_prereleases = true,
+          analyze_open_documents_only = true,
+          enable_decompilation_support = true,
         }
-      end,
-      -- omnisharp = {
-        -- root_dir = require('user.csharp.root_dir'),
-        -- enable_editorconfig_support = true,
-        -- enable_ms_build_load_projects_on_demand = false,
-        -- enable_roslyn_analyzers = true,
-        -- organize_imports_on_format = false,
-        -- enable_import_completion = true,
-        -- -- Specifies whether to include preview versions of the .NET SDK when
-        -- -- determining which version to use for project loading.
-        -- sdk_include_prereleases = true,
-        -- analyze_open_documents_only = true,
-        -- enable_decompilation_support = true,
-      -- }
+      end
     },
     formatting = {
       -- control auto formatting on save
@@ -449,7 +451,6 @@ local config = {
       ["z3"] = { "<cmd>set foldlevel=3<cr>" },
       ["z4"] = { "<cmd>set foldlevel=4<cr>" },
       ["z5"] = { "<cmd>set foldlevel=5<cr>" },
-      ["<space>sg"] = { "<cmd>OpenBrowserSearch -google <c-r>=expand('<cword>')<cr><cr>" },
       -- quick save
       -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
     },
@@ -608,20 +609,6 @@ local config = {
     -- Syntax
     { "ledger/vim-ledger" },
     -- All other entries override the require("<key>").setup({...}) call for default plugins
-    ["null-ls"] = function(config) -- overrides `require("null-ls").setup(config)`
-      -- config variable is the default configuration table for the setup function call
-      -- local null_ls = require "null-ls"
-
-      -- Check supported formatters and linters
-      -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
-      -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
-      config.sources = {
-        -- Set a formatter
-        -- null_ls.builtins.formatting.stylua,
-        -- null_ls.builtins.formatting.prettier,
-      }
-      return config -- return final config table
-    end,
     lspkind = {
       before = function(entry, vim_item)
         if entry.source.name == "cmp_tabnine" then

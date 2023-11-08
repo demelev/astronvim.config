@@ -32,7 +32,7 @@ M = {
       ["z5"] = { "<cmd>set foldlevel=5<cr>" },
 
       ["<space>t"] = { "<cmd> :Switch<cr>" },
-      ["<space>sg"] = { "<cmd>OpenBrowserSearch -google <c-r>=expand('<cword>')<cr><cr>"}
+      ["<space>sg"] = { "<cmd>OpenBrowserSearch -google <c-r><c-w><cr>"}
     },
     x = {},
     v = {},

@@ -1,7 +1,7 @@
 local dap = require 'dap'
 -- local command = '/home/demelev/Downloads/unity-debug-3.0.1/extension/bin/UnityDebug.exe'
 -- 3.0.1 hangs unity until disconnected
-local command = '/home/demelev/Downloads/unity-debug-2.7.2/extension/bin/UnityDebug.exe'
+-- local command = '/home/demelev/Downloads/unity-debug-2.7.2/extension/bin/UnityDebug.exe'
 -- local unity_process_id_regexp = '[%w ]+ %(%w+%) %((%d+)%)'
 
 -- require('dap').adapters.unity = {

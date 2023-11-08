@@ -1,6 +1,4 @@
 return function(bufname, _)
-  print("Calculate root for C# project")
-
   local util = require 'lspconfig.util'
   local scan_dir = require 'plenary.scandir'.scan_dir
   local path = require 'plenary.path'
@@ -9,7 +7,7 @@ return function(bufname, _)
   local root = util.root_pattern('*.sln')(bufname)
 
   if root ~= nil then
-    print("Found a root with sln "..root)
+    --print("Found a root with sln "..root)
     return path.new(root):absolute()
   end
 
@@ -30,7 +28,7 @@ return function(bufname, _)
   local cwdSolutions = scan_dir(vim.fn.getcwd(), { depth = 1, search_pattern = "\\*.sln$" })
 
   if #cwdSolutions ~= 0 then
-    print("Found a root with sln "..cwdSolutions[1])
+    -- print("Found a root with sln "..cwdSolutions[1])
     -- print("CWD solutions "..cwdSolutions[1])
     return path.new(cwdSolutions[1]):parent():absolute()
   end
@@ -43,7 +41,7 @@ return function(bufname, _)
   -- print(vim.inspect(result))
   if #csprojs ~= 0 then
     local path = path.new(csprojs[1]):parent():absolute()
-    print("Return csproj[1] path: "..path)
+    --print("Return csproj[1] path: "..path)
     return path
   end
 end

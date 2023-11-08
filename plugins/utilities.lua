@@ -61,7 +61,6 @@ return {
     lazy = false,
     config = function()
       vim.cmd [[
-"nmap <space>sg :OpenBrowserSearch -google <c-r>=expand("<cword>")<cr><cr>
 nmap <space>su :OpenBrowserSearch -unity3d <c-r>=expand("<cword>")<cr><cr>
 nmap <space>sr :OpenBrowserSearch -rust <c-r><c-w><cr>
 nmap <space>ag :OpenBrowserSearch -google

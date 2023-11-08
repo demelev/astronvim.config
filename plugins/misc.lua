@@ -11,22 +11,30 @@ return {
   },
 
   {
+    'tpope/vim-dadbod',
+    lazy = false,
+    dependencies = {
+      {'kristijanhusak/vim-dadbod-ui'},
+    },
+  },
+  {
     'whleucka/reverb.nvim',
     event = "BufReadPre",
+    enabled = false,
     opts = {
-    sounds = {
-      -- add custom sound paths for other events here
-      -- eg. EVENT = "/some/path/to/sound.mp3"
-      BufRead = sound_dir .. "start.ogg",
-      CursorMovedI =  sound_dir_click,
-      CursorMoved =  insert_move,
-      --InsertLeave = sound_dir .. "switch_002.ogg",
-      CmdlineLeave = sound_dir .. "confirmation_002.ogg",
-      CmdlineEnter = sound_dir .. "confirmation_003.ogg",
-      InsertEnter = sound_dir .. "toggle_002.ogg",
-      InsertLeave = sound_dir .. "toggle_001.ogg",
-      ExitPre = sound_dir .. "exit.ogg",
-      BufWrite = sound_dir .. "drop_004.ogg",
+      sounds = {
+        -- add custom sound paths for other events here
+        -- eg. EVENT = "/some/path/to/sound.mp3"
+        BufRead = sound_dir .. "start.ogg",
+        CursorMovedI =  sound_dir_click,
+        CursorMoved =  insert_move,
+        --InsertLeave = sound_dir .. "switch_002.ogg",
+        CmdlineLeave = sound_dir .. "confirmation_002.ogg",
+        CmdlineEnter = sound_dir .. "confirmation_003.ogg",
+        InsertEnter = sound_dir .. "toggle_002.ogg",
+        InsertLeave = sound_dir .. "toggle_001.ogg",
+        ExitPre = sound_dir .. "exit.ogg",
+        BufWrite = sound_dir .. "drop_004.ogg",
       },
     },
   },
