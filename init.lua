@@ -175,6 +175,7 @@ local config = {
       -- "pyright"
       -- "sonarlint_language_server",
       "azure_pipelines_ls",
+      "nushell",
     },
     -- Add overrides for LSP server settings, the keys are the name of the server
     config = {
@@ -203,6 +204,13 @@ local config = {
       --     filetypes = { "cs" }
       --   }
       -- end,
+      nushell = function()
+        return {
+          cmd = { "nu", "--lsp" },
+          root_dir = require("user.csharp.root_dir"),
+          filetypes = { "nu" }
+        }
+      end,
       azure_pipelines_ls = function()
         return {
           cmd = {
